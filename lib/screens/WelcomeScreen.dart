@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flash_chat/screens/RegistrationScreen.dart';
+
+import 'LoginScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  static const ID = "WelcomeScreen";
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -34,18 +38,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ],
             ),
             SizedBox(
-              height: 20.0,
+              height: 50.0,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Material(
                 elevation: 5.0,
                 color: Colors.lightBlueAccent,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   minWidth: 200.0,
-                  height: 40.0,
-                  onPressed: () {},
+                  height: 42.0,
+                  onPressed: () {
+                    Navigator.pushNamed(context, LoginScreen.ID);
+                  },
                   child: Text(
                     "Login",
                     style: TextStyle(
@@ -57,15 +63,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Material(
                 elevation: 5.0,
                 color: Colors.blueAccent,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   minWidth: 200.0,
-                  height: 40.0,
-                  onPressed: () {},
+                  height: 42.0,
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegistrationScreen.ID);
+                  },
                   child: Text(
                     "Register",
                     style: TextStyle(
