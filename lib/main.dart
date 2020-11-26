@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flash_chat/screens/LoginScreen.dart';
+import 'package:flutter_flash_chat/screens/RegistrationScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.red,
       // ),
-      home: LoginScreen(),
+      home: RegistrationScreen(),
     );
   }
 }
