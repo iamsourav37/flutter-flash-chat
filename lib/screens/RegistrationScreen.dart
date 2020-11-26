@@ -13,15 +13,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(
+                height: 20.0,
+              ),
               Container(
                 height: 200,
-                child: Image.asset('assets/images/logo.png'),
+                child: Hero(
+                  tag: "logo",
+                  child: Image.asset('assets/images/logo.png'),
+                ),
               ),
               SizedBox(
                 height: 40.0,
