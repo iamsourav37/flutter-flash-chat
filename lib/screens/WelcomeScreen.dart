@@ -1,3 +1,5 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flash_chat/screens/RegistrationScreen.dart';
 
@@ -9,7 +11,19 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation _animation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +44,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    "Flash Chat",
-                    style: TextStyle(
+                  child: TypewriterAnimatedTextKit(
+                    text: ["Flash Chat"],
+                    textStyle: TextStyle(
                       fontSize: 45.0,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ),
