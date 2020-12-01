@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flash_chat/screens/LoginScreen.dart';
 import 'package:flutter_flash_chat/screens/RegistrationScreen.dart';
 import 'package:flutter_flash_chat/screens/WelcomeScreen.dart';
-import 'dart:async';
+import 'package:flutter_flash_chat/screens/ChatScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         WelcomeScreen.ID: (context) => WelcomeScreen(),
         LoginScreen.ID: (context) => LoginScreen(),
         RegistrationScreen.ID: (context) => RegistrationScreen(),
+        ChatScreen.ID: (context) => ChatScreen(),
       },
     );
   }
