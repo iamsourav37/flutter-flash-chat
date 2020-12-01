@@ -22,12 +22,19 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
     try {
+      print("Email $email");
+      print("password : $password");
       await auth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
 
-      Navigator.pushNamed(context, ChatScreen.ID);
+      setState(() {
+        Navigator.pushNamed(context, ChatScreen.ID);
+        isLoading = false;
+        email = "";
+        password = "";
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

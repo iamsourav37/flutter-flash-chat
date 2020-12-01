@@ -28,7 +28,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       await auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatScreen()));
+      setState(() {
+        Navigator.pushNamed(context, ChatScreen.ID);
+        isLoading = false;
+        email = "";
+        password = "";
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');
