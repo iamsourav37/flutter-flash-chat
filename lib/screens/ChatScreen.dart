@@ -43,7 +43,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 Navigator.pop(context);
               }),
         ],
-        title: Text('⚡️Chat'),
+        title: Text('⚡️ Chat'),
+        centerTitle: true,
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SafeArea(
@@ -52,6 +53,11 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                ),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -60,14 +66,27 @@ class _ChatScreenState extends State<ChatScreen> {
                       onChanged: (value) {
                         //Do something with the user input.
                       },
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        hintText: 'Type your message here...',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                   FlatButton(
                     onPressed: () {
                       //Implement send functionality.
                     },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       'Send',
+                      style: TextStyle(
+                        color: Colors.lightBlueAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
                     ),
                   ),
                 ],
