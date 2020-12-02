@@ -6,6 +6,8 @@ import 'WelcomeScreen.dart';
 FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 User loggedInUser;
 
+// PROBLEM : Messages order is not right fix this
+
 class ChatScreen extends StatefulWidget {
   static const String ID = "chatScreen";
 
