@@ -34,9 +34,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   sendMessage(String msgText) {
-    _firebaseFirestore
-        .collection('messages')
-        .add({'sender': loggedInUser.email, 'msgText': msgText});
+    _firebaseFirestore.collection('messages').add({
+      'sender': loggedInUser.email,
+      'msgText': msgText,
+      "messageTime": DateTime.now(),
+    });
   }
 
   getMessages() async {
@@ -145,6 +147,7 @@ class MessageBubble extends StatelessWidget {
             height: 3.0,
           ),
           Material(
+            elevation: 5.0,
             borderRadius: isMe
                 ? BorderRadius.only(
                     topLeft: Radius.circular(30),
@@ -156,9 +159,9 @@ class MessageBubble extends StatelessWidget {
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
-            color: isMe ? Colors.blueAccent : Colors.grey,
+            color: isMe ? Colors.blueAccent : Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: Text(
                 msgText,
                 style: TextStyle(
@@ -178,7 +181,10 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firebaseFirestore.collection('messages').snapshots(),
+      stream: _firebaseFirestore
+          .collection('messages')
+          .orderBy('messageTime', descending: false)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Container(
