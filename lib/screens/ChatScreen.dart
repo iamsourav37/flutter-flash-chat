@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'WelcomeScreen.dart';
+
+FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
 class ChatScreen extends StatefulWidget {
   static const String ID = "chatScreen";
@@ -12,7 +14,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final auth = FirebaseAuth.instance;
+  TextEditingController msgTextController = TextEditingController();
   User loggedInUser;
+  String msgText;
 
   @override
   void initState() {
@@ -29,6 +33,19 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  sendMessage(String msgText) {
+    _firebaseFirestore
+        .collection('messages')
+        .add({'sender': loggedInUser.email, 'msgText': msgText});
+  }
+
+  getMessages() async {
+    final messages = await _firebaseFirestore.collection('messages').get();
+    for (var message in messages.docs) {
+      print(message.data());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +54,13 @@ class _ChatScreenState extends State<ChatScreen> {
         // leading: Container(),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                auth.signOut();
-                Navigator.pop(context);
-              }),
+            icon: Icon(Icons.close),
+            onPressed: () {
+              this.getMessages();
+              // auth.signOut();
+              // Navigator.pop(context);
+            },
+          ),
         ],
         title: Text('⚡️ Chat'),
         centerTitle: true,
@@ -52,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            MessageStream(),
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -63,8 +83,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: msgTextController,
                       onChanged: (value) {
-                        //Do something with the user input.
+                        msgText = value;
                       },
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
@@ -76,7 +97,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      //Implement send functionality.
+                      msgTextController.clear();
+                      this.sendMessage(msgText);
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -95,6 +117,36 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MessageStream extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firebaseFirestore.collection('messages').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Container(
+            height: 400.0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        final messages = snapshot.data.docs;
+        List<Text> messagesWidgets = [];
+        for (var message in messages) {
+          var data = message.data();
+          final msgText = data['msgText'];
+          final sender = data['sender'];
+          messagesWidgets.add(Text("$msgText from $sender"));
+        }
+        return Column(
+          children: messagesWidgets,
+        );
+      },
     );
   }
 }
