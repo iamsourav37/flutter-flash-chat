@@ -22,8 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
     try {
-      print("Email $email");
-      print("password : $password");
       await auth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
